@@ -1,15 +1,13 @@
 import Component from '../lib/component/Component';
 import { getState } from '../lib/observer/globalObserver';
-import FirstDepth from './components/FirstDepth';
-import Form from './components/Form';
-import { textState } from './store';
+import { pageState } from './store';
 import _ from './util/dom';
 
 export default class App extends Component {
   constructor() {
     super();
     this.$target = _.createElement({ tagName: 'div', classNames: ['app'] });
-    this.keys = [textState];
+    this.keys = [pageState];
     this.init();
   }
 
@@ -19,23 +17,16 @@ export default class App extends Component {
   }
 
   render() {
-    this.setComponent();
-    const text = getState(textState);
+    this.$target.innerHTML = '';
+    const { Page } = getState(pageState);
+    this.setComponent(Page);
 
-    const form = this.components['form'];
-    //vs 위 아래 뭐가 더 좋을지
-    const firstDepth = this.getComponent('firstDepth');
+    const page = this.getComponent('page');
 
-    this.$target.innerHTML = `
-        <div>root: ${text}<div>
-      `;
-
-    this.$target.appendChild(firstDepth.$target);
-    this.$target.appendChild(form.$target);
+    this.$target.appendChild(page.$target);
   }
-  setComponent() {
-    this.components['form'] = new Form();
-    this.components['firstDepth'] = new FirstDepth();
+  setComponent(Page) {
+    this.components['page'] = new Page();
   }
 }
 
