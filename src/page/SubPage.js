@@ -1,8 +1,8 @@
-import { router } from '../index.js';
 import Component from '../lib/component/index.js';
+import { router } from '../index.js';
 import _ from '../util/dom.js';
 
-export default class MainPage extends Component {
+export default class SubPage extends Component {
   constructor() {
     super();
   }
@@ -13,13 +13,13 @@ export default class MainPage extends Component {
 
   handleClick(e) {
     if (e.target.tagName !== 'BUTTON') return;
-    router.push('/sub');
+    router.push('/');
   }
 
   setTemplate() {
     return `
-        <h1>메인페이지</h1>
-        <button>서브페이지로 이동</button>
-    `;
+        <h1>서브 페이지</h1>  
+        <button>메인페이지로 이동</button>
+      `;
   }
 }
