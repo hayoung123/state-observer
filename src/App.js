@@ -1,32 +1,26 @@
-import Component from '../lib/component/Component';
-import { getState } from '../lib/observer/globalObserver';
-import { pageState } from './store';
-import _ from './util/dom';
+import Component from './lib/component/index.js';
+import { getState } from './lib/observer/index.js';
+import { pageState, pageState } from './store/pageState.js';
+import _ from './util/dom.js';
 
 export default class App extends Component {
   constructor() {
     super();
     this.$target = _.createElement({ tagName: 'div', classNames: ['app'] });
     this.keys = [pageState];
+    this.subscribe();
     this.init();
   }
 
-  init() {
-    this.subscribe();
-    this.render();
+  setTemplate() {
+    return <div id='page'></div>;
   }
-
-  render() {
-    this.$target.innerHTML = '';
-    const { Page } = getState(pageState);
-    this.setComponent(Page);
-
-    const page = this.getComponent('page');
-
-    this.$target.appendChild(page.$target);
-  }
-  setComponent(Page) {
-    this.components['page'] = new Page();
+  setComponent() {
+    const pageState = getState(pageState);
+    if (!pageState) return {};
+    return {
+      page: new pageState.Page(),
+    };
   }
 }
 

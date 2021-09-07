@@ -1,4 +1,5 @@
-import { subscribe, unsubscribe } from '../observer/globalObserver';
+import { subscribe, unsubscribe } from '../observer/index.js';
+import _ from '../../util/dom.js';
 
 export default class Component {
   /**
@@ -8,7 +9,8 @@ export default class Component {
    *
    * reRender: 구독, 구도 취소할 때 사용하는 렌더링함수를 this에 바인딩한 함수
    */
-  constructor(props) {
+  constructor(type = 'div', props) {
+    this.$target = _.createElement(type);
     this.props = props;
     this.state = this.initState();
 
@@ -16,7 +18,7 @@ export default class Component {
     this.components = {};
 
     this.init();
-    this.reRender = this.registerRender.bind(this);
+    this.reRender = this.render.bind(this);
   }
 
   init() {
@@ -36,7 +38,6 @@ export default class Component {
     this.components = this.setComponents();
     this.innerHTML = this.setTemplate();
     this.setLayout();
-    this.componentDidMount();
   }
 
   //innerHTML
@@ -47,13 +48,9 @@ export default class Component {
   //컴포넌트를 각 위치에 맞게 replace
   setLayout() {
     for (const [key, Comp] of Object.entries(this.components)) {
-      const $$ = this.querySelector(`#${key}`);
-      $$?.replaceWith(Comp);
+      const replacedElem = this.$target.querySelector(`#${key}`);
+      replacedElem?.replaceWith(Comp.$target);
     }
-  }
-
-  componentDidMount() {
-    return;
   }
 
   setComponents() {
@@ -62,7 +59,7 @@ export default class Component {
 
   //클래스 추가 메소드
   addClass(...args) {
-    this.className = args.join(' ');
+    this.$target.className = args.join(' ');
   }
 
   //구독한 상태 변경시 렌더링 되는 함수
