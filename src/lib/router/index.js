@@ -1,9 +1,10 @@
-import setState from '../observer/index.js';
+import { setState } from '../observer/index.js';
 
 export default class Router {
-  constructor({ routes, pageState }) {
-    this.routes = routes;
+  constructor({ pageState }) {
+    this.routes;
     this.setPage = setState(pageState);
+
     this.currIndex = 0;
 
     this.init();

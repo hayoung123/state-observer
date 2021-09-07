@@ -10,7 +10,7 @@ export default class Component {
    * reRender: 구독, 구도 취소할 때 사용하는 렌더링함수를 this에 바인딩한 함수
    */
   constructor(type = 'div', props) {
-    this.$target = _.createElement(type);
+    this.$target = _.createElement({ tagName: type });
     this.props = props;
     this.state = this.initState();
 
@@ -36,7 +36,7 @@ export default class Component {
 
   render() {
     this.components = this.setComponents();
-    this.innerHTML = this.setTemplate();
+    this.$target.innerHTML = this.setTemplate();
     this.setLayout();
   }
 
@@ -49,6 +49,7 @@ export default class Component {
   setLayout() {
     for (const [key, Comp] of Object.entries(this.components)) {
       const replacedElem = this.$target.querySelector(`#${key}`);
+      console.log(Comp);
       replacedElem?.replaceWith(Comp.$target);
     }
   }

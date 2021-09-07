@@ -1,4 +1,4 @@
-import { initState } from '../lib/observer';
+import { initState } from '../lib/observer/index.js';
 
 export const pageState = initState({
   key: 'pageState',

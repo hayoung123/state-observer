@@ -20,7 +20,7 @@ const getState = (key) => {
   return globalState[key]._state;
 };
 
-const setState = (key, newState) => {
+const setState = (key) => (newState) => {
   if (!(key in globalState)) throw Error('존재하지 않는 key값 입니다.');
 
   if (typeof newState === 'function') {
